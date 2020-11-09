@@ -1,0 +1,48 @@
+--link to diagram https://docs.google.com/drawings/d/1RA0na2DW-Jykf77d5nVLk3Puji3lgfN5vZdnTjgsTjA/edit?usp=sharing;
+CREATE DATABASE TripPlannerDB;
+USE TripPlannerDB;
+
+CREATE TABLE [User](
+	UserID INT NOT NULL PRIMARY KEY,
+	[Name] NVARCHAR(50) NOT NULL,
+	[Address] NVARCHAR(100) NOT NULL,
+	PhoneNumber NVARCHAR(15) NOT NULL,
+	DOB DATE NOT NULL,
+	);
+
+CREATE TABLE Passport(
+	PassportNumber INT NOT NULL PRIMARY KEY,
+	[Name] NVARCHAR(50) NOT NULL,
+	[Address] NVARCHAR(100) NOT NULL,
+	Expiration Date NOT NULL,
+	UserID INT FOREIGN KEY REFERENCES [User](UserId)
+	);
+
+CREATE TABLE Trip(
+	TripID INT NOT NULL PRIMARY KEY,
+	Budget FLOAT NOT NULL,
+	StartDestination NVARCHAR(40) NOT NULL,
+	EndDestination NVARCHAR(40) NOT NULL,
+	StartDate DATE NOT NULL,
+	EndDate DATE NOT NULL,
+	TravelMode NVARCHAR(15),
+	UserID INT FOREIGN KEY REFERENCES [User](UserId)
+	);
+
+CREATE TABLE Hotel(
+	BookingID INT NOT NULL PRIMARY KEY,
+	[Name] NVARCHAR(40) NOT NULL,
+	CheckInDate DATE NOT NULL,
+	CheckOutDate DATE NOT NULL,
+	CostPerNight FLOAT NOT NULL,
+	[Address] NVARCHAR(100) NOT NULL,
+	PhoneNumber NVARCHAR(15),
+	UserID INT FOREIGN KEY REFERENCES [User](UserId),
+	TripID INT FOREIGN KEY REFERENCES [Trip](TripId)
+	);
+
+CREATE TABLE UserHotel(
+	UserHotelID INT NOT NULL PRIMARY KEY,
+	UserID INT FOREIGN KEY REFERENCES [User](UserId), 
+	BookingID INT FOREIGN KEY REFERENCES [Hotel](BookingId),
+	);
